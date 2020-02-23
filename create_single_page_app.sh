@@ -8,9 +8,14 @@ echo $group_list | jq -r '.[] | .name'
 read -p "Choose resource name: " resource_group_name
 group_location=$(echo $group_list | jq -r --arg name "$resource_group_name" '.[] | select(.name == $name) | .location')
 
+
+echo "Creating storage account..."
 az storage account create \
     -n $app_name \
     -g $resource_group_name \
     -l $group_location \
-    --sku Standard_LRS
+    --sku Standard_LRS \
+    --kind StorageV2
+
+
 
